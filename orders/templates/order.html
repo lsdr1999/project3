@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block title %}
+    Order
+{% endblock %}
+
+{% block main %}
+<form class="m-5" action="{% url 'order' %}" method="post">
+
+    <div class="p-3">
+        {% csrf_token %}
+        <table class="table table-hover table-light table-sm text-center">
+            <div class="text-center">
+                <h4> <span class="badge badge-danger">Cart</span> </h4>
+            </div>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for check in Checkout %}
+                <tr>
+                    <td>{{ check.category }} {{ check.name }}</td>
+                    <td> ${{ check.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <td> Total </td>
+                <td> ${{Total|floatformat:2}} </td>
+            </tfoot>
+        </table>
+    </div>
+    <a href="{% url 'order' %}"><button type="submit" class="btn btn-primary">Checkout</button></a>
+</form>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block main %}
+<div class="p-3">
+    <table class="table table-hover table-light table-sm text-center">
+        <div class="text-center">
+            <h4> <span class="badge badge-danger">Category</span> </h4>
+        </div>
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in Categorys %}
+            <tr>
+                <td>{{ category.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

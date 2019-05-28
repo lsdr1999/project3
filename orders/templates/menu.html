@@ -1,0 +1,169 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block title %}
+    Menu
+{% endblock %}
+
+{% block main %}
+
+    <div class="p-3">
+        {% csrf_token %}
+        <table class="table table-hover table-light table-sm text-center">
+            <div class="text-center">
+                <h4> <span class="badge badge-danger">Regular Pizza</span> </h4>
+            </div>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Small</th>
+                    <th scope="col">Large</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pizza in Regular_pizzas %}
+                <tr>
+                    <td>{{ pizza.name }}</td>
+                    <td><a href="{% url 'add' pizza.category pizza.name pizza.small %}"><button>${{ pizza.small }}</button></a></td>
+                    <td><a href="{% url 'add' pizza.category pizza.name pizza.large %}"><button>${{ pizza.large }}</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="p-3">
+        <table class="table table-hover table-light table-sm text-center">
+            <div class="text-center">
+                <h4> <span class="badge badge-danger">Sicilian Pizza</span> </h4>
+            </div>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Small</th>
+                    <th scope="col">Large</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pizza in Sicilian_pizzas %}
+                <tr>
+                    <td>{{ pizza.name }}</td>
+                    <td><a href="{% url 'add' pizza.category pizza.name pizza.small %}"><button>${{ pizza.small }}</button></a></td>
+                    <td><a href="{% url 'add' pizza.category pizza.name pizza.large %}"><button>${{ pizza.large }}</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- <div class="p-3">
+        <table class="table table-hover table-light table-sm text-center">
+            <div class="text-center">
+                <h4> <span class="badge badge-danger">Toppings</span> </h4>
+            </div>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for top in Toppings %}
+                <tr>
+                    <td>{{ top.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div> -->
+    <div class="p-3">
+        <table class="table table-hover table-light table-sm text-center">
+            <div class="text-center">
+                <h4> <span class="badge badge-danger">Subs</span> </h4>
+            </div>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Small</th>
+                    <th scope="col">Large</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sub in Subs %}
+                <tr>
+                    <td>{{ sub.name }}</td>
+                    {% if sub.small == None %}
+                    <td></td>
+                     {% else %}
+                     <td><a href="{% url 'add' sub.category sub.name sub.small %}"><button>${{ sub.small }}</button></a></td>
+                    {% endif %}
+                    <td><a href="{% url 'add' sub.category sub.name sub.large %}"><button>${{ sub.large }}</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="p-3">
+        <table class="table table-hover table-light table-sm text-center">
+            <div class="text-center">
+                <h4> <span class="badge badge-danger">Pasta</span> </h4>
+            </div>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pasta in Pastas %}
+                <tr>
+                    <td>{{ pasta.name }}</td>
+                    <td><a href="{% url 'add' pasta.category pasta.name pasta.normal %}"><button>${{ pasta.normal }}</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="p-3">
+        <table class="table table-hover table-light table-sm text-center">
+            <div class="text-center">
+                <h4> <span class="badge badge-danger">Salads</span> </h4>
+            </div>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sla in Salads %}
+                <tr>
+                    <td>{{ sla.name }}</td>
+                    <td><a href="{% url 'add' sla.category sla.name sla.normal %}"><button>${{ sla.normal }}</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="p-3">
+        <table class="table table-hover table-light table-sm text-center">
+            <div class="text-center">
+                <h4> <span class="badge badge-danger">Dinner Platters</span> </h4>
+            </div>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Small</th>
+                    <th scope="col">Large</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dp in Dinner_platters %}
+                <tr>
+                    <td>{{ dp.name }}</td>
+                    <td><a href="{% url 'add' dp.category dp.name dp.small %}"><button>${{ dp.small }}</button></a></td>
+                    <td><a href="{% url 'add' dp.category dp.name dp.large %}"><button>${{ dp.large }}</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
