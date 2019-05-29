@@ -2,8 +2,8 @@
 
 This project contains a website called "pizzaAPI".
 
-Users are able to register and sign in (i.e. with username 'pietzza' and password '1234'). When registered and logged in users are able to order food from the menu (pizza, pasta, salads, etcetera). Users can leave the page/log out and, when they return, find the order to still be present in their cart. They are also able to delete certain items from the cart (this is my personal touch, together with a more extensive styling of the website).
-Admins are able to view all orders (sign in with username 'admin' and password 'adminadmin').  
+Users are able to register and sign in (i.e. with username `pietzza` and password `1234`). When registered and logged in users are able to order food from the menu (pizza, pasta, salads, etcetera). Users can leave the page/log out and, when they return, find the order to still be present in their cart. They are also able to delete certain items from the cart (this is my personal touch, together with a more extensive styling of the website).
+Admins are able to view all orders (sign in with username `admin` and password `adminadmin`).  
 The website comes with next-level styling, with moving text and a 'pizza'-cursor. Have fun ordering food!
 
 # Manual
