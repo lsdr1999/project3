@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block title %}
+    Manager
+{% endblock %}
+
+{% block main %}
+
+    <div class="p-3">
+        {% csrf_token %}
+        <table class="table table-light table-sm text-center">
+            <div class="text-center">
+                <h4> <span class="badge badge-danger">Orders</span> </h4>
+            </div>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Order Nr. | Name</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for check in Orders2 %}
+                <tr>
+                    <td> Order Nr.{{ check.number }}: {{ check.user }} </td>
+                    <td> {{ check.category }} {{ check.name }} </td>
+                    <td> {{ check.price }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

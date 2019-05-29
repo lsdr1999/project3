@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block main %}
-<form class="m-5" action="{% url 'order' %}" method="post">
 
     <div class="p-3">
         {% csrf_token %}
@@ -19,6 +18,7 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -26,16 +26,23 @@
                 <tr>
                     <td>{{ check.category }} {{ check.name }}</td>
                     <td> ${{ check.price }}</td>
+                    <td><a href="{% url 'delete' check.category check.name check.price %}"><button class="btn btn-primary">Remove</button></a></td>
                 </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
-                <td> Total </td>
-                <td> ${{Total|floatformat:2}} </td>
+                <tr>
+                    <td> Total </td>
+                    <td> ${{Total|floatformat:2}} </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><a href="{% url 'index' %}"><button type="submit" class="btn btn-primary">Checkout</button></a></td>
+                </tr>
             </tfoot>
         </table>
     </div>
-    <a href="{% url 'order' %}"><button type="submit" class="btn btn-primary">Checkout</button></a>
-</form>
 
 {% endblock %}

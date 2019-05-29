@@ -8,7 +8,7 @@
 
 {% block main %}
 
-    <div class="p-3">
+    <div class="p-3" id="Regular Pizza">
         {% csrf_token %}
         <table class="table table-hover table-light table-sm text-center">
             <div class="text-center">
@@ -32,7 +32,7 @@
             </tbody>
         </table>
     </div>
-    <div class="p-3">
+    <div class="p-3" id="Sicilian Pizza">
         <table class="table table-hover table-light table-sm text-center">
             <div class="text-center">
                 <h4> <span class="badge badge-danger">Sicilian Pizza</span> </h4>
@@ -55,7 +55,7 @@
             </tbody>
         </table>
     </div>
-    <!-- <div class="p-3">
+    <div class="p-3" id="Pizza Toppings">
         <table class="table table-hover table-light table-sm text-center">
             <div class="text-center">
                 <h4> <span class="badge badge-danger">Toppings</span> </h4>
@@ -63,18 +63,20 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Name</th>
+                    <th scope="col">Price</th>
                 </tr>
             </thead>
             <tbody>
                 {% for top in Toppings %}
                 <tr>
                     <td>{{ top.name }}</td>
+                    <td><a href="{% url 'add' top.category top.name top.normal %}"><button>${{ top.normal }}</button></a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </div> -->
-    <div class="p-3">
+    </div>
+    <div class="p-3" id="Subs">
         <table class="table table-hover table-light table-sm text-center">
             <div class="text-center">
                 <h4> <span class="badge badge-danger">Subs</span> </h4>
@@ -101,7 +103,7 @@
             </tbody>
         </table>
     </div>
-    <div class="p-3">
+    <div class="p-3" id="Pasta">
         <table class="table table-hover table-light table-sm text-center">
             <div class="text-center">
                 <h4> <span class="badge badge-danger">Pasta</span> </h4>
@@ -122,7 +124,7 @@
             </tbody>
         </table>
     </div>
-    <div class="p-3">
+    <div class="p-3" id="Salads">
         <table class="table table-hover table-light table-sm text-center">
             <div class="text-center">
                 <h4> <span class="badge badge-danger">Salads</span> </h4>
@@ -143,7 +145,7 @@
             </tbody>
         </table>
     </div>
-    <div class="p-3">
+    <div class="p-3" id="Dinner Platters">
         <table class="table table-hover table-light table-sm text-center">
             <div class="text-center">
                 <h4> <span class="badge badge-danger">Dinner Platters</span> </h4>

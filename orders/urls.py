@@ -7,11 +7,12 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("login_view", views.login_view, name="login_view"),
+    path("logout_view", views.logout_view, name="logout_view"),
     path("register", views.register, name="register"),
     path("menu", views.menu, name="menu"),
     path("order", views.order, name="order"),
+    path("cart", views.cart, name="cart"),
     path("add/<str:category>/<str:name>/<str:price>", views.add, name="add"),
-    # path("delete/<str:category>/<str:name>/<str:price>", views.delete, name="delete"),
-    path("logout_view", views.logout_view, name="logout_view"),
+    path("delete/<str:category>/<str:name>/<str:price>", views.delete, name="delete"),
 ]
 static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

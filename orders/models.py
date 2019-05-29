@@ -3,12 +3,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=64)
-
-    def __str__(self):
-        return f"{self.name}"
-
 class Regular_pizza(models.Model):
     category = models.CharField(max_length=64, default='Regular Pizza')
     name = models.CharField(max_length=64)
@@ -28,10 +22,12 @@ class Sicilian_pizza(models.Model):
         return f"{self.category} - {self.name} - {self.small} - {self.large}"
 
 class Topping(models.Model):
+    category = models.CharField(max_length=64, default='Only for Pizza')
     name = models.CharField(max_length=64)
+    normal = models.DecimalField(max_digits=4, decimal_places=2)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.category} - {self.name} - {self.normal}"
 
 class Sub(models.Model):
     category = models.CharField(max_length=64, default='Sub')
@@ -67,6 +63,18 @@ class Dinner_platter(models.Model):
     def __str__(self):
         return f"{self.category} - {self.name} - {self.small} - {self.large}"
 
+class Order_counter(models.Model):
+    counter = models.IntegerField()
+
+    def __str__(self):
+        return f"Order no: {self.counter}"
+
+class Category(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return f"{self.name}"
+
 class User_order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_number = models.IntegerField()
@@ -85,9 +93,3 @@ class Order2(models.Model):
 
     def __str__(self):
         return f"{self.category} - {self.name} - ${self.price}"
-
-class Order_counter(models.Model):
-    counter = models.IntegerField()
-
-    def __str__(self):
-        return f"Order no: {self.counter}"

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Styles -->
+        <link href="static/orders/styles.css" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Scripts -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+        <title>Cart confirmation</title>
+    </head>
+
+    <body>
+
+        <div class="p-3">
+            {% csrf_token %}
+            <table class="table table-hover table-light table-sm text-center">
+                <div class="text-center">
+                    <h5><a href="{% url 'menu' %}"><button type="submit" class="btn btn-primary">Add an Item</button></a>
+                        <a href="{% url 'order' %}"><button type="submit" class="btn btn-primary">Go to Checkout</button></a></h5>
+                </div>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for check in Checkout %}
+                    <tr>
+                        <td>{{ check.category }} {{ check.name }}</td>
+                        <td> ${{ check.price }}</td>
+                        <td><a href="{% url 'delete' check.category check.name check.price %}"><button class="btn btn-primary">Remove</button></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <td> Total </td>
+                    <td> ${{Total|floatformat:2}} </td>
+                    <td></td>
+                </tfoot>
+            </table>
+        </div>
+
+        <footer class="small text-center text-muted">
+            Copyright &#169; 2019
+        </footer>
+
+    </body>
+</html>

@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models import Sum
-from .models import Category, Regular_pizza, Sicilian_pizza, Topping, Sub, Pasta, Salad, Dinner_platter, Order2, User_order, Order_counter
+from .models import Regular_pizza, Sicilian_pizza, Topping, Sub, Pasta, Salad, Dinner_platter, Order_counter, Category, User_order, Order2
 
 counter = Order_counter.objects.first()
 if counter == None:
@@ -12,7 +12,7 @@ if counter == None:
     set_counter.save()
 superuser = User.objects.filter(is_superuser = True)
 if superuser.count() == 0:
-    superuser = User.objects.create_user("admin", "admin@admin.com", "adminadmin")
+    superuser = User.objects.create_user("admin", "info@pizzaAPI.com", "adminadmin")
     superuser.is_superuser = True
     superuser.is_staff = True
     superuser.save()
@@ -23,11 +23,18 @@ if superuser.count() == 0:
 def index(request):
     if not request.user.is_authenticated:
         return render(request, "login.html", {"message":"Please log in or register."})
-    context = {
-        "user": request.user,
-        "Categorys": Category.objects.all()
+    if request.user.is_superuser:
+        context = {
+            "user": request.user,
+            "Orders2": Order2.objects.all(),
         }
-    return render(request, "index.html", context)
+        return render(request, "manager.html", context)
+    else:
+        context = {
+            "user": request.user,
+            "Categorys": Category.objects.all()
+        }
+        return render(request, "index.html", context)
 
 
 def register(request):
@@ -108,6 +115,18 @@ def order(request):
     return render(request, "order.html", context)
 
 
+def cart(request):
+    order_number = User_order.objects.get(user=request.user, status='initiated').order_number
+    context = {
+        "user": request.user,
+        "Checkout": Order2.objects.filter(user=request.user, number=order_number),
+        "Total": list(Order2.objects.filter(user=request.user, number=order_number).aggregate(Sum('price')).values())[0],
+        "Topping_price": 0.00,
+        "Order_number": order_number
+    }
+    return render(request, "cart.html", context)
+
+
 def add(request, category, name, price):
     order_number = User_order.objects.get(user=request.user, status='initiated').order_number
     topping_allowance = User_order.objects.get(user=request.user, status='initiated')
@@ -129,8 +148,9 @@ def add(request, category, name, price):
         if name == "3 toppings":
             topping_allowance.topping_allowance+=3
             topping_allowance.save()
-    if "Toppings" and topping_allowance.topping_allowance == 0:
-        return render(request, "order.html", context)
+        if name == "Special":
+            topping_allowance.topping_allowance+=5
+            topping_allowance.save()
     if "Toppings" and topping_allowance.topping_allowance > 0:
         topping_allowance.topping_allowance-=1
         topping_allowance.save()
@@ -144,36 +164,42 @@ def add(request, category, name, price):
         "Topping_price": 0.00,
         "Order_number": order_number
     }
-    return render(request, "order.html", context2)
+    return render(request, "cart.html", context2)
 
-# def delete(request,category,name,price):
-#     order_number = User_order.objects.get(user=request.user, status='initiated').order_number
-#     topping_allowance = User_order.objects.get(user=request.user, status='initiated')
-#     if 'Regular Pizza' or 'Sicilian Pizza':
-#         if name == "1 topping":
-#             topping_allowance.topping_allowance+=1
-#             topping_allowance.save()
-#         if name == "2 toppings":
-#             topping_allowance.topping_allowance+=2
-#             topping_allowance.save()
-#         if name == "3 toppings":
-#             topping_allowance.topping_allowance+=3
-#             topping_allowance.save()
-#         topping_allowance.topping_allowance = 0
-#         topping_allowance.save()
-#         delete_all_toppings = Order2.objects.filter(user=request.user,category="Toppings")
-#         delete_all_toppings.delete()
-#     if "Toppings":
-#         topping_allowance.topping_allowance+=1
-#         topping_allowance.save()
-#
-#     find_order = Order2.objects.filter(user=request.user, category=category, name=name, price=price)[0]
-#     find_order.delete()
-#     context = {
-#         "user": request.user,
-#         "Checkout": Order2.objects.filter(user=request.user, number=order_number),
-#         "Total": list(Order2.objects.filter(user=request.user, number=order_number).aggregate(Sum('price')).values())[0],
-#         "Topping_price": 0.00,
-#         "Order_number": order_number
-#     }
-#     return render(request,"order.html",context)
+
+def delete(request, category, name, price):
+    order_number = User_order.objects.get(user=request.user, status='initiated').order_number
+    topping_allowance = User_order.objects.get(user=request.user, status='initiated')
+
+    if 'Regular Pizza' or 'Sicilian Pizza':
+        if name == "1 topping":
+            topping_allowance.topping_allowance+=1
+            topping_allowance.save()
+        if name == "2 toppings":
+            topping_allowance.topping_allowance+=2
+            topping_allowance.save()
+        if name == "3 toppings":
+            topping_allowance.topping_allowance+=3
+            topping_allowance.save()
+        if name == "Special":
+            topping_allowance.topping_allowance+=5
+            topping_allowance.save()
+        topping_allowance.topping_allowance = 0
+        topping_allowance.save()
+        delete_all_toppings = Order2.objects.filter(user=request.user, category="Toppings")
+        delete_all_toppings.delete()
+
+    if "Toppings":
+        topping_allowance.topping_allowance+=1
+        topping_allowance.save()
+
+    find_order = Order2.objects.filter(user=request.user, category=category, name=name, price=price)[0]
+    find_order.delete()
+    context = {
+        "user": request.user,
+        "Checkout": Order2.objects.filter(user=request.user, number=order_number),
+        "Total": list(Order2.objects.filter(user=request.user, number=order_number).aggregate(Sum('price')).values())[0],
+        "Topping_price": 0.00,
+        "Order_number": order_number
+    }
+    return render(request, "cart.html", context)
